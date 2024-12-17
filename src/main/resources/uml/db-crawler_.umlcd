@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<com.yattasolutions.uml.diagrams.classifier:ClassDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.yattasolutions.uml.diagrams.classifier="http://ns.yatta-solutions.com/umllab/diagrams/classifier/1.1.0" xmi:id="_B6KtYLsPEe-wlb8_td1cxQ">
+  <modelElement href="db-crawler.uml#__4wPQLsOEe-wlb8_td1cxQ"/>
+  <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:PackageVisual" xmi:id="_CGuisLsPEe-wlb8_td1cxQ" name="fr">
+    <modelElement href="db-crawler.uml#_AoqCMLsPEe-wlb8_td1cxQ"/>
+    <visualProperties xmi:id="_CGuisbsPEe-wlb8_td1cxQ" position="-114.0,36.0" size="-1.0,-1.0"/>
+  </nodes>
+  <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:PackageVisual" xmi:id="_CG0CQLsPEe-wlb8_td1cxQ" name="com">
+    <modelElement href="db-crawler.uml#_Ao22gLsPEe-wlb8_td1cxQ"/>
+    <visualProperties xmi:id="_CG0CQbsPEe-wlb8_td1cxQ" position="-279.0,36.0" size="-1.0,-1.0"/>
+  </nodes>
+  <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:ClassifierVisual" xmi:id="_CGtUkLsPEe-wlb8_td1cxQ" name="void">
+    <modelElement href="db-crawler.uml#_BEzLoLsPEe-wlb8_td1cxQ"/>
+    <visualProperties xmi:id="_CGtUkbsPEe-wlb8_td1cxQ" position="50.0,50.0" size="-1.0,-1.0"/>
+    <stereotypes xmi:id="_CGtUkrsPEe-wlb8_td1cxQ" name="Reference">
+      <modelElement href="db-crawler.uml#_BEzysLsPEe-wlb8_td1cxQ"/>
+    </stereotypes>
+    <visibility xmi:id="_CGtUk7sPEe-wlb8_td1cxQ" label="+"/>
+  </nodes>
+  <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:PackageVisual" xmi:id="_CGwX4LsPEe-wlb8_td1cxQ" name="java">
+    <modelElement href="db-crawler.uml#_Aor3YLsPEe-wlb8_td1cxQ"/>
+    <visualProperties xmi:id="_CGwX4bsPEe-wlb8_td1cxQ" position="141.0,36.0" size="-1.0,-1.0"/>
+  </nodes>
+  <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:PackageVisual" xmi:id="_CGyNELsPEe-wlb8_td1cxQ" name="org">
+    <modelElement href="db-crawler.uml#_Ao0aQbsPEe-wlb8_td1cxQ"/>
+    <visualProperties xmi:id="_CGyNEbsPEe-wlb8_td1cxQ" position="291.0,36.0" size="-1.0,-1.0"/>
+  </nodes>
+  <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:PackageVisual" xmi:id="_CG13cLsPEe-wlb8_td1cxQ" name="DDLParser">
+    <modelElement href="db-crawler.uml#_ApRGMbsPEe-wlb8_td1cxQ"/>
+    <visualProperties xmi:id="_CG13cbsPEe-wlb8_td1cxQ" position="441.0,36.0" size="-1.0,-1.0"/>
+  </nodes>
+</com.yattasolutions.uml.diagrams.classifier:ClassDiagram>

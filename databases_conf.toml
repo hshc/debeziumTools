@@ -1,0 +1,16 @@
+[[database]]
+type = "sqlserver"
+url = "jdbc:sqlserver://mysqlserver.com:1433;encrypt=true;trustServerCertificate=true"
+username = "debezium"
+password = "*****"
+database = "myDB"
+schemas = ["dbo"]
+
+
+[[database]]
+type = "snowflake"
+url = "jdbc:snowflake://ZZKUGBL-II86278.snowflakecomputing.com"
+username = "afanon"
+password = "*****"
+database = "SQLSERVER_INGEST"
+schemas = ["LANDING", "BRZ"]

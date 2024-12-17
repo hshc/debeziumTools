@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<com.yattasolutions.uml.diagrams.classifier:ClassDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.yattasolutions.uml.diagrams.classifier="http://ns.yatta-solutions.com/umllab/diagrams/classifier/1.1.0" xmi:id="_B6XhsLsPEe-wlb8_td1cxQ">
+  <modelElement href="db-crawler.uml#_AovhwLsPEe-wlb8_td1cxQ"/>
+  <edges xsi:type="com.yattasolutions.uml.diagrams.classifier:AssociationVisual" xmi:id="_C5KFMLsPEe-wlb8_td1cxQ" source="_C5KsQLsPEe-wlb8_td1cxQ">
+    <modelElement href="db-crawler.uml#_BKtmYLsPEe-wlb8_td1cxQ"/>
+    <visualProperties xmi:id="_C5VrYLsPEe-wlb8_td1cxQ" position="70.0,70.0"/>
+    <stereotypes xmi:id="_C5KFMbsPEe-wlb8_td1cxQ" name="Reference">
+      <modelElement href="db-crawler.uml#_BKtmYrsPEe-wlb8_td1cxQ"/>
+    </stereotypes>
+    <nameVisual xmi:id="_C5KFMrsPEe-wlb8_td1cxQ" text=""/>
+    <sourceRole xmi:id="_C5KFM7sPEe-wlb8_td1cxQ" aggregationKind="NONE" name="">
+      <modelElement href="db-crawler.uml#_BKtmYbsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KFNLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KFNbsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+    </sourceRole>
+    <targetRole xmi:id="_C5KFNrsPEe-wlb8_td1cxQ" aggregationKind="NONE" name="RESOURCE_BUNDLE" navigable="true">
+      <modelElement href="db-crawler.uml#_BInUoLsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KFN7sPEe-wlb8_td1cxQ" label="-"/>
+      <cardinality xmi:id="_C5KFOLsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+    </targetRole>
+  </edges>
+  <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:ClassifierVisual" xmi:id="_C5KsQLsPEe-wlb8_td1cxQ" name="Messages" associationsOut="_C5KFMLsPEe-wlb8_td1cxQ">
+    <modelElement href="db-crawler.uml#_A0KHkLsPEe-wlb8_td1cxQ"/>
+    <visualProperties xmi:id="_C5KsQbsPEe-wlb8_td1cxQ" position="50.0,50.0" size="-1.0,-1.0"/>
+    <visibility xmi:id="_C5KsQrsPEe-wlb8_td1cxQ" label="+"/>
+    <attributes xmi:id="_C5KsQ7sPEe-wlb8_td1cxQ" defaultValue="&quot;fr.hshc.db.tools.messages&quot;" name="BUNDLE_NAME" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BImGgLsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KsRLsPEe-wlb8_td1cxQ" label="-"/>
+      <cardinality xmi:id="_C5KsRbsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KsRrsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5KsR7sPEe-wlb8_td1cxQ" defaultValue="ResourceBundle.getBundle(BUNDLE_NAME, Locale.getDefault())" name="RESOURCE_BUNDLE" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BInUoLsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KsSLsPEe-wlb8_td1cxQ" label="-"/>
+      <cardinality xmi:id="_C5KsSbsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KsSrsPEe-wlb8_td1cxQ" name="ResourceBundle">
+        <modelElement href="db-crawler.uml#_BD2JY7sPEe-wlb8_td1cxQ"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5KsS7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;ERROR_DDL_GEN_FAILED_FOR_DB&quot;)" name="ERROR_DDL_GEN_FAILED_FOR_DB" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BInUorsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KsTLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KsTbsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KsTrsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5KsT7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;ERROR_DDL_GEN_FAILED&quot;)" name="ERROR_DDL_GEN_FAILED" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BInUpLsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KsULsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KsUbsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KsUrsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5KsU7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;INFO_DDL_OUTPUT_FILE&quot;)" name="INFO_DDL_OUTPUT_FILE" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BInUprsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KsVLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KsVbsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KsVrsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5KsV7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;INFO_DDL_GEN&quot;)" name="INFO_DDL_GEN" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BInUqLsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KsWLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KsWbsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KsWrsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5KsW7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;ERROR_YAML_LOADING_FAILED&quot;)" name="ERROR_YAML_LOADING_FAILED" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIn7sbsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KsXLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KsXbsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KsXrsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5KsX7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;ERROR_DDL_FETCHING_FAILED&quot;)" name="ERROR_DDL_FETCHING_FAILED" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIn7s7sPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KsYLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KsYbsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KsYrsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5KsY7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;ERROR_DB_CRAWL_FAILED&quot;)" name="ERROR_DB_CRAWL_FAILED" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIn7tbsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KsZLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KsZbsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KsZrsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5KsZ7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;INFO_DB_CRAWLED&quot;)" name="INFO_DB_CRAWLED" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIn7t7sPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KsaLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KsabsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KsarsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Ksa7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;ERROR_LOAD_CONF_FAILED&quot;)" name="ERROR_LOAD_CONF_FAILED" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIn7ubsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KsbLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KsbbsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KsbrsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Ksb7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;INVALID_OPTION&quot;)" name="INVALID_OPTION" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIn7u7sPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KscLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KscbsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KscrsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Ksc7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;EXITING&quot;)" name="EXITING" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIoiwbsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KsdLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KsdbsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KsdrsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Ksd7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;INPUT_YAML_FILE_PATH&quot;)" name="INPUT_YAML_FILE_PATH" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIoiw7sPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KseLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KsebsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KsersPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Kse7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;EXIT_CHOICE&quot;)" name="EXIT_CHOICE" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIoixbsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KsfLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KsfbsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KsfrsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Ksf7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;GEN_DDL_CHOICE&quot;)" name="GEN_DDL_CHOICE" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIoix7sPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KsgLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KsgbsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KsgrsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Ksg7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;CRAWL_CHOICE&quot;)" name="CRAWL_CHOICE" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIoiybsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KshLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KshbsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KshrsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Ksh7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;SELECT_OPTION&quot;)" name="SELECT_OPTION" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIoiy7sPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KsiLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KsibsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KsirsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Ksi7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;INFO_SKIP_MENU&quot;)" name="INFO_SKIP_MENU" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIpJ0LsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KsjLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KsjbsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KsjrsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Ksj7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;ERROR_FILE_NOT_FOUND&quot;)" name="ERROR_FILE_NOT_FOUND" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIpJ0rsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KskLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KskbsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KskrsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Ksk7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;ERROR_CONFIG_FILE_NOT_PROVIDED&quot;)" name="ERROR_CONFIG_FILE_NOT_PROVIDED" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIpJ1LsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KslLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KslbsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KslrsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Ksl7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;INFO_LOADING_TYPE_MAPPING&quot;)" name="INFO_LOADING_TYPE_MAPPING" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIpJ1rsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KsmLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KsmbsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KsmrsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Ksm7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;DDL_TRANSLATOR_CHOICE&quot;)" name="DDL_TRANSLATOR_CHOICE" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIpJ2LsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KsnLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KsnbsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KsnrsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Ksn7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;INPUT_DDL_FILE_PATH&quot;)" name="INPUT_DDL_FILE_PATH" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIpJ2rsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KsoLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KsobsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KsorsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Kso7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;INPUT_TYPE_MAPPING_FILE_PATH&quot;)" name="INPUT_TYPE_MAPPING_FILE_PATH" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIpJ3LsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KspLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KspbsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KsprsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Ksp7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;INPUT_OUTPUT_DDL_FILE_PATH&quot;)" name="INPUT_OUTPUT_DDL_FILE_PATH" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIpJ3rsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KsqLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KsqbsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KsqrsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Ksq7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;INFO_TRANSLATING_DDL&quot;)" name="INFO_TRANSLATING_DDL" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIpw4bsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KsrLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KsrbsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KsrrsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Ksr7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;INFO_DDL_TRANSLATION_COMPLETE&quot;)" name="INFO_DDL_TRANSLATION_COMPLETE" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIpw47sPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KssLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KssbsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KssrsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Kss7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;ERROR_DDL_TRANSLATION_FAILED&quot;)" name="ERROR_DDL_TRANSLATION_FAILED" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIpw5bsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KstLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KstbsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KstrsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Kst7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;ERROR_USAGE&quot;)" name="ERROR_USAGE" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIpw57sPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KsuLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KsubsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KsursPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Ksu7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;ERROR_CONFIG_FILE_AND_YAML_REQUIRED&quot;)" name="ERROR_CONFIG_FILE_AND_YAML_REQUIRED" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIqX8bsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KsvLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KsvbsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KsvrsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Ksv7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;ERROR_DDL_TRANSLATION_ARGUMENTS_REQUIRED&quot;)" name="ERROR_DDL_TRANSLATION_ARGUMENTS_REQUIRED" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIqX87sPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KswLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KswbsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KswrsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Ksw7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;ERROR_INVALID_OPTION&quot;)" name="ERROR_INVALID_OPTION" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIqX9bsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KsxLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KsxbsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KsxrsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Ksx7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;INPUT_TOML_FILE_PATH&quot;)" name="INPUT_TOML_FILE_PATH" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIq_ALsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KsyLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KsybsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KsyrsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Ksy7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;HELP_HEADER&quot;)" name="HELP_HEADER" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIq_ArsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5KszLsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5KszbsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5KszrsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Ksz7sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;HELP_CRAWL&quot;)" name="HELP_CRAWL" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIq_BLsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5Ks0LsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5Ks0bsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5Ks0rsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Ks07sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;HELP_DDL_GEN&quot;)" name="HELP_DDL_GEN" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIq_BrsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5Ks1LsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5Ks1bsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5Ks1rsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Ks17sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;HELP_DDL_TRANSLATE&quot;)" name="HELP_DDL_TRANSLATE" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIq_CLsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5Ks2LsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5Ks2bsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5Ks2rsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Ks27sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;HELP_MENU&quot;)" name="HELP_MENU" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIq_CrsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5Ks3LsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5Ks3bsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5Ks3rsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Ks37sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;HELP_EXIT&quot;)" name="HELP_EXIT" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIq_DLsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5Ks4LsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5Ks4bsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5Ks4rsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_C5Ks47sPEe-wlb8_td1cxQ" defaultValue="Messages.getString(&quot;INPUT_TYPE_CSV_SEPARATOR&quot;)" name="INPUT_TYPE_CSV_SEPARATOR" staticAttribute="true">
+      <modelElement href="db-crawler.uml#_BIq_DrsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5Ks5LsPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5Ks5bsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <type xmi:id="_C5Ks5rsPEe-wlb8_td1cxQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <operations xmi:id="_C5Ks57sPEe-wlb8_td1cxQ" name="Messages">
+      <modelElement href="db-crawler.uml#_A0Q1QLsPEe-wlb8_td1cxQ"/>
+      <keywords xmi:id="_C5Ks6LsPEe-wlb8_td1cxQ" keyword="create"/>
+      <stereotypes xmi:id="_C5Ks6bsPEe-wlb8_td1cxQ" name="LegacyStyledElement">
+        <modelElement href="db-crawler.uml#_A0SDYLsPEe-wlb8_td1cxQ"/>
+      </stereotypes>
+      <visibility xmi:id="_C5Ks6rsPEe-wlb8_td1cxQ" label="-"/>
+      <cardinality xmi:id="_C5Ks67sPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <outParameters xmi:id="_C5Ks7LsPEe-wlb8_td1cxQ">
+        <modelElement href="db-crawler.uml#_A0SqcLsPEe-wlb8_td1cxQ"/>
+        <type xmi:id="_C5Ks7bsPEe-wlb8_td1cxQ" name="Messages">
+          <modelElement href="db-crawler.uml#_A0KHkLsPEe-wlb8_td1cxQ"/>
+        </type>
+      </outParameters>
+    </operations>
+    <operations xmi:id="_C5Ks7rsPEe-wlb8_td1cxQ" name="getString" staticOperation="true">
+      <modelElement href="db-crawler.uml#_A0SqcbsPEe-wlb8_td1cxQ"/>
+      <visibility xmi:id="_C5Ks77sPEe-wlb8_td1cxQ" label="+"/>
+      <cardinality xmi:id="_C5Ks8LsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+      <outParameters xmi:id="_C5Ks8bsPEe-wlb8_td1cxQ">
+        <modelElement href="db-crawler.uml#_A0TRgLsPEe-wlb8_td1cxQ"/>
+        <type xmi:id="_C5Ks8rsPEe-wlb8_td1cxQ" name="String">
+          <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </type>
+      </outParameters>
+      <parameters xmi:id="_C5Ks87sPEe-wlb8_td1cxQ" name="key">
+        <modelElement href="db-crawler.uml#_A0SqcrsPEe-wlb8_td1cxQ"/>
+        <cardinality xmi:id="_C5Ks9LsPEe-wlb8_td1cxQ" label="1" max="1" min="1"/>
+        <type xmi:id="_C5Ks9bsPEe-wlb8_td1cxQ" name="String">
+          <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </type>
+      </parameters>
+    </operations>
+  </nodes>
+  <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:PackageVisual" xmi:id="_C5WScLsPEe-wlb8_td1cxQ" name="dbcrawler">
+    <modelElement href="db-crawler.uml#_Ao1oYLsPEe-wlb8_td1cxQ"/>
+    <visualProperties xmi:id="_C5WScbsPEe-wlb8_td1cxQ" position="-117.0,851.0" size="-1.0,-1.0"/>
+  </nodes>
+  <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:PackageVisual" xmi:id="_C5XgkLsPEe-wlb8_td1cxQ" name="dbtranslator">
+    <modelElement href="db-crawler.uml#_Ao9kMLsPEe-wlb8_td1cxQ"/>
+    <visualProperties xmi:id="_C5XgkbsPEe-wlb8_td1cxQ" position="644.0,851.0" size="-1.0,-1.0"/>
+  </nodes>
+</com.yattasolutions.uml.diagrams.classifier:ClassDiagram>

@@ -1,0 +1,8 @@
+[[database]]
+type = "sqlserver"
+url = "jdbc:sqlserver://mysqlserver.com:1433;encrypt=true;trustServerCertificate=true"
+username = "debezium"
+password = "*******"
+database = "myDb"
+schemas = ["dbo"]
+
