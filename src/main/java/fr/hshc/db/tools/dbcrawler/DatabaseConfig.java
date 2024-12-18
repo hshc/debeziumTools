@@ -1,11 +1,6 @@
 package fr.hshc.db.tools.dbcrawler;
 
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.sql.JDBCType;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -23,14 +23,13 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import fr.hshc.db.antlr4.DDLLexer;
 import fr.hshc.db.antlr4.DDLParser;
 import fr.hshc.db.tools.Messages;
-import fr.hshc.db.tools.dbcrawler.DatabaseConfig;
-import fr.hshc.db.tools.dbtranslator.infragen.DbzKafkaSrcConnectorMakerVisitor;
+import fr.hshc.db.tools.dbtranslator.infragen.KafkaDbzSrcConnectorMakerVisitor;
 import fr.hshc.db.tools.dbtranslator.infragen.SnowTargetTablesBootstrapingDMLMakerVisitor;
 import fr.hshc.db.tools.dbtranslator.infragen.SnowTargetTablesDDLMakerVisitor;
-import fr.hshc.db.tools.dbtranslator.infragen.DbzKafkaSnowSinkConnectorMakerVisitor;
+import fr.hshc.db.tools.dbtranslator.infragen.KafkaSnowSinkConnectorMakerVisitor;
 import fr.hshc.db.tools.dbtranslator.infragen.SnowTargetTablesSnapshotingDMLCTASMakerVisitor;
-import fr.hshc.db.tools.dbtranslator.infragen.SnowTargetTableProvisionningMakerVisitor;
-import fr.hshc.db.tools.dbtranslator.infragen.SnowStreamProvisionedTargetTableTasksMakerVisitor;
+import fr.hshc.db.tools.dbtranslator.infragen.SnowStreamsForTargetTablesDDLMakerVisitor;
+import fr.hshc.db.tools.dbtranslator.infragen.SnowTasksForStreamsMakerVisitor;
 
 public class ANTLRDDLTranslator {
 	private ParseTree			tree;			// The ANTLR parse tree representing the DDL file's structure
@@ -100,7 +99,7 @@ public class ANTLRDDLTranslator {
 	    if ("".equals(outputDDLFile)) {
 	    	outputDDLFile = inputDDLFile.concat(".out");
 	    }
-	    String warehouse = params.getOrDefault("warehouse", "dummy_wh"); // Default to "dummy_wh"
+	    String warehouse = params.getOrDefault("warehouse", "$SNOW_WAREHOUSE"); // Default to "dummy_wh"
 	    String dbConf = params.get("dbConfig"); // Optional
 	    String operation = params.get("operation"); // Optional
 
@@ -115,7 +114,7 @@ public class ANTLRDDLTranslator {
 	            System.out.println("3: Generate Snapshoting DML");
 	            System.out.println("4: Generate Target Table Provisioning Streams");
 	            System.out.println("5: Generate Stream-Provisioned Table Tasks");
-	            System.out.println("6: Generate Snowflake Kafka Sink configuration");
+	            System.out.println("6: Generate Debezium/Snowflake Kafka Source/Sink configurations");
 	            System.out.println("7: All the 6");
 	            System.out.print("Enter your choice (1-7): ");
 	            operation = scanner.nextLine();
@@ -140,13 +139,13 @@ public class ANTLRDDLTranslator {
 	                System.out.println("Target Tables Snapshoting DML translation completed.");
 	                break;
 	            case "4":
-	                result = ddlTranslator.computeTargetTableProvisionningStreams();
+	                result = ddlTranslator.computeStreamsForTargetTablesDDL();
                     writeToFile(outputDDLFile + ".SnowTargetTableProvisionningStreams", result);
 	                System.out.println("Target Table Provisioning Streams generation completed.");
 	                break;
 	            case "5":
-	                result = ddlTranslator.computeStreamProvisionedTargetTableTasks();
-                    writeToFile(outputDDLFile + ".SnowStreamProvisionedTargetTableTasks", result);
+	                result = ddlTranslator.computeTasksForStreams();
+                    writeToFile(outputDDLFile + ".SnowTasksForStreams", result);
 	                System.out.println("Stream-Provisioned Target Table Tasks generation completed.");
 	                break;
 	            case "6":
@@ -154,32 +153,39 @@ public class ANTLRDDLTranslator {
                         System.out.print(Messages.INPUT_TOML_FILE_PATH);
                         dbConf = scanner.next();
                     }
-                    result = ddlTranslator.computeDbzKafkaSnowSinkConfig();
-                    writeToFile(outputDDLFile + ".DbzKafkaSnowSinkConfig", result);
-	                System.out.println("Snowflake Kafka Sink Connector configuration generation completed.");
-                    result = ddlTranslator.computeDbzKafkaSrcConfig();
-                    writeToFile(outputDDLFile + ".DbzKafkaSrcConfig", result);
+                    result = ddlTranslator.computeKafkaDbzSrcConfig();
+                    writeToFile(outputDDLFile + ".KafkaDbzSrcConfig", result);
 	                System.out.println("Debezium Kafka Source Connector configuration generation completed.");
+                    
+                    result = ddlTranslator.computeKafkaSnowSinkConfig();
+                    writeToFile(outputDDLFile + ".KafkaSnowSinkConfig", result);
+	                System.out.println("Snowflake Kafka Sink Connector configuration generation completed.");
 	                break;
 	            case "7":
+                    result = ddlTranslator.computeKafkaDbzSrcConfig();
+                    writeToFile(outputDDLFile + ".KafkaDbzSrcConfig", result);
+                    
+                    result = ddlTranslator.computeKafkaSnowSinkConfig();
+                    writeToFile(outputDDLFile + ".KafkaSnowSinkConfig", result);
+                    
 	                result = ddlTranslator.computeTargetTablesDDL();
                     writeToFile(outputDDLFile + ".SnowTargetTablesDDL", result);
+                    
 	                result = ddlTranslator.computeTargetTablesBoostrapingDML();
                     writeToFile(outputDDLFile + ".SnowTargetTablesBootsrapingDML", result);
+                    
 	                result = ddlTranslator.computeTargetTablesSnapshotingDML();
                     writeToFile(outputDDLFile + ".SnowTargetTablesSnapshotingDML", result);
-	                result = ddlTranslator.computeTargetTableProvisionningStreams();
-                    writeToFile(outputDDLFile + ".SnowTargetTableProvisionningStreams", result);
-	                result = ddlTranslator.computeStreamProvisionedTargetTableTasks();
-                    writeToFile(outputDDLFile + ".SnowStreamProvisionedTargetTableTasks", result);
+                    
+	                result = ddlTranslator.computeStreamsForTargetTablesDDL();
+                    writeToFile(outputDDLFile + ".SnowStreamsForTargetTablesDDL", result);
+                    
+	                result = ddlTranslator.computeTasksForStreams();
+                    writeToFile(outputDDLFile + ".SnowTasksForStreams", result);
                     if (dbConf == null) {
                         System.out.print(Messages.INPUT_TOML_FILE_PATH);
                         dbConf = scanner.next();
                     }
-                    result = ddlTranslator.computeDbzKafkaSnowSinkConfig();
-                    writeToFile(outputDDLFile + ".DbzKafkaSnowSinkConfig", result);
-                    result = ddlTranslator.computeDbzKafkaSrcConfig();
-                    writeToFile(outputDDLFile + ".DbzKafkaSrcConfig", result);
 	                break;
 	            default:
 	                System.err.println("Invalid operation. Please choose a number between 1 and 7.");
@@ -189,8 +195,8 @@ public class ANTLRDDLTranslator {
 	    }
 	}
 
-	private String computeDbzKafkaSrcConfig() {
-		DbzKafkaSrcConnectorMakerVisitor visitor = new DbzKafkaSrcConnectorMakerVisitor(typeMapping, this.dbConf);
+	private String computeKafkaDbzSrcConfig() {
+		KafkaDbzSrcConnectorMakerVisitor visitor = new KafkaDbzSrcConnectorMakerVisitor(typeMapping, this.dbConf);
 		return visitor.visit(this.tree);
 	}
 
@@ -292,8 +298,8 @@ public class ANTLRDDLTranslator {
 	 * @throws IOException
 	 *             if an error occurs during processing
 	 */
-	private String computeTargetTableProvisionningStreams() throws IOException {
-		SnowTargetTableProvisionningMakerVisitor visitor = new SnowTargetTableProvisionningMakerVisitor();
+	private String computeStreamsForTargetTablesDDL() throws IOException {
+		SnowStreamsForTargetTablesDDLMakerVisitor visitor = new SnowStreamsForTargetTablesDDLMakerVisitor();
 		return visitor.visit(this.tree);
 	}
 
@@ -310,8 +316,8 @@ public class ANTLRDDLTranslator {
 	}
 
 
-	private String computeDbzKafkaSnowSinkConfig() throws IOException {
-		DbzKafkaSnowSinkConnectorMakerVisitor visitor = new DbzKafkaSnowSinkConnectorMakerVisitor(typeMapping, this.dbConf);
+	private String computeKafkaSnowSinkConfig() throws IOException {
+		KafkaSnowSinkConnectorMakerVisitor visitor = new KafkaSnowSinkConnectorMakerVisitor(typeMapping, this.dbConf);
 		return visitor.visit(this.tree);
 	}
 
@@ -322,8 +328,8 @@ public class ANTLRDDLTranslator {
 	 * @throws IOException
 	 *             if an error occurs during processing
 	 */
-	private String computeStreamProvisionedTargetTableTasks() throws IOException {
-		SnowStreamProvisionedTargetTableTasksMakerVisitor visitor = new SnowStreamProvisionedTargetTableTasksMakerVisitor(typeMapping, this.warehouse);
+	private String computeTasksForStreams() throws IOException {
+		SnowTasksForStreamsMakerVisitor visitor = new SnowTasksForStreamsMakerVisitor(typeMapping, this.warehouse);
 		return visitor.visit(this.tree);
 	}
 

@@ -1,6 +1,5 @@
 package fr.hshc.db.tools.dbtranslator.infragen;
 
-import java.io.IOException;
 import java.util.Map;
 
 import fr.hshc.db.antlr4.DDLParser;
@@ -24,18 +23,18 @@ public class SnowBootstrapCTASMakerVisitor extends SnowCodeGeneratorGenericVisit
 		initNameSpaces(fqtn);
 
 		String landingTableFQTN = "\t";
-		if (!"".equals(this.workingDatabase)) {
-			landingTableFQTN = this.workingDatabase + ".";
+		if (!"".equals(this.getWorkingDatabase())) {
+			landingTableFQTN = this.getWorkingDatabase() + ".";
 		}
-		landingTableFQTN += this.landingSchema + "."+this.sourceSchema.toUpperCase()+"_" + this.sourceTableName + "\r\n";
+		landingTableFQTN += this.getLandingSchema() + "."+this.getSourceSchema().toUpperCase()+"_" + this.tableName + "\r\n";
 
 		String fields = visitContent(ctx.content());
 
 		String outputFQTN = "";
-		if (this.workingDatabase != null) {
-			outputFQTN = this.workingDatabase + ".";
+		if (this.getWorkingDatabase() != null) {
+			outputFQTN = this.getWorkingDatabase() + ".";
 		}
-		outputFQTN += this.targetSchema + "." + this.sourceTableName;
+		outputFQTN += this.getTargetSchema() + "." + this.tableName;
 
 		result
 		.append("CREATE OR REPLACE TABLE ").append(outputFQTN).append(" AS\r\n")
@@ -51,16 +50,7 @@ public class SnowBootstrapCTASMakerVisitor extends SnowCodeGeneratorGenericVisit
 	public String visitField(DDLParser.FieldContext ctx) {
 		// Extract field name and format it
 		String fieldName = visitFieldName(ctx.fieldName());
-		Field fieldType = null;
-		try {
-			fieldType = Field.deserialize(visitFieldType(ctx.fieldType()));
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Field fieldType = super.extractField(ctx);
 
 		if (fieldType.id) {
 			return String.format("COALESCE(t.record_content:payload.before.%s::%s, t.record_content:payload.after.%s::%s) as %s", fieldName, fieldType.type, fieldName, fieldType.type, fieldName);

@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import fr.hshc.db.antlr4.DDLParser.CreateTableContext;
-import fr.hshc.db.antlr4.DDLParser.FieldSizeContext;
-import fr.hshc.db.antlr4.DDLParser.FieldTypeContext;
-import fr.hshc.db.antlr4.DDLParser.FiledIdentContext;
 import fr.hshc.db.antlr4.DDLParser;
+import fr.hshc.db.antlr4.DDLParser.CreateTableContext;
+import fr.hshc.db.antlr4.DDLParser.FieldContext;
+import fr.hshc.db.antlr4.DDLParser.FieldSizeContext;
+import fr.hshc.db.antlr4.DDLParser.FiledIdentContext;
 import fr.hshc.db.antlr4.DDLParserBaseVisitor;
 
 abstract class SnowCodeGeneratorGenericVisitor extends DDLParserBaseVisitor<String> {
@@ -25,14 +25,15 @@ abstract class SnowCodeGeneratorGenericVisitor extends DDLParserBaseVisitor<Stri
 	protected String					landingSchema	= null;
 	protected String					targetSchema	= null;
 	protected String					workingDatabase	= null;
-	protected String					sourceTableName	= "";
+	protected String					tableName	= "";
+	protected String[]					inputTableNameSpace;
 
 	SnowCodeGeneratorGenericVisitor(Map<String, String> typeMapping, String workingDatabase, String sourceSchema, String landingSchema, String targetSchema) {
 		super();
 		this.typeMapping = typeMapping;
 		this.workingDatabase = workingDatabase == null ? "" : workingDatabase;
-		this.sourceSchema = sourceSchema == null ? "defaultSchema" : sourceSchema;
-		this.landingSchema = landingSchema == null ? "landing" : landingSchema;
+		this.sourceSchema = sourceSchema == null ? "" : sourceSchema;
+		this.landingSchema = landingSchema == null ? "" : landingSchema;
 		this.targetSchema = targetSchema == null ? "" : targetSchema;
 	}
 
@@ -41,20 +42,46 @@ abstract class SnowCodeGeneratorGenericVisitor extends DDLParserBaseVisitor<Stri
 	}
 
 	protected void initNameSpaces(String inputTableNameSpace) {
-		String[] result = inputTableNameSpace.split("\\.");
-		int length = result.length;
-		this.sourceTableName = result[length - 1];
-		if (length > 1 && "defaultSchema".equals(sourceSchema)) {
-			this.sourceSchema = result[length - 2];
-		}
-		if (length > 2 && "".equals(workingDatabase)) {
-			workingDatabase = result[length - 3];
-		}
-		if ("".equals(targetSchema)) {
-			targetSchema = sourceSchema;
-		}
+		this.inputTableNameSpace = inputTableNameSpace.split("\\.");	
+		int length = this.inputTableNameSpace.length;
+		this.tableName = this.inputTableNameSpace[length - 1].trim();
 	}
 
+	public String getWorkingDatabase() {
+		int length = this.inputTableNameSpace.length;
+		if (length > 2 && "".equals(this.workingDatabase)) {
+			return this.inputTableNameSpace[length - 3].trim();
+		}
+		return this.workingDatabase;
+	}
+	public String getSourceSchema() {
+		int length = inputTableNameSpace.length;
+		if (length > 1 && "".equals(this.sourceSchema)) {
+			return inputTableNameSpace[length - 2].trim();
+		}
+		if ("".equals(this.sourceSchema)) {
+			return "defaultSchema";
+		}
+		return this.sourceSchema;
+	}
+
+	public String getLandingSchema() {
+		if ("".equals(this.landingSchema)) {
+			if (!"defaultSchema".equals(this.getSourceSchema())) {
+				return this.getSourceSchema();
+			}
+			return "landing";
+		}
+		return this.landingSchema;
+	}
+
+	public String getTargetSchema() {
+		if ("".equals(this.targetSchema)) {
+			return this.getSourceSchema();
+		}
+		return this.targetSchema;
+	}
+	
 	@Override
 	public String visitDdlFile(DDLParser.DdlFileContext ctx) {
 		// Visit all CREATE TABLE statements and join their transformations
@@ -87,16 +114,12 @@ abstract class SnowCodeGeneratorGenericVisitor extends DDLParserBaseVisitor<Stri
 		return fields.toString();
 	}
 
-	@Override
-	public String visitFieldName(DDLParser.FieldNameContext ctx) {
-		// Get the full field name
-		return ctx.getText();
-	}
 	
-	@Override
-	public String visitFieldType(FieldTypeContext ctx) {
+	public Field extractField(FieldContext ctx) {
 		Field field = null;
-		String dbms1Type = ctx.children.getFirst().toString().toUpperCase();
+		
+		String name = ctx.fieldName().getText();
+		String dbms1Type = ctx.fieldType().getText();
 		String dbms2Type = null;
 		FiledIdentContext ident = null;
 		FieldSizeContext size = null;
@@ -117,24 +140,32 @@ abstract class SnowCodeGeneratorGenericVisitor extends DDLParserBaseVisitor<Stri
 			iSize = Integer.parseInt(size.getText().substring(1, size.getText().length() - 1));
 			dbms2Type = dbms2Type.substring(0, dbms2Type.indexOf("()"));
 		}
-		field = new Field(dbms2Type, iSize, ident != null);
-		try {
-			return field.serialize();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
+		field = new Field(name, dbms2Type, iSize, ident != null);
+		return field;
 	}
+	
+//	@Override
+//	public String visitField(FieldContext ctx) {
+//		Field field = extractField(ctx);
+//		try {
+//			return field.serialize();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		return null;
+//	}
 
 	protected static class Field implements Serializable {
 		private static final long serialVersionUID = 7477404464954942327L;
 	
-		public Field(final String type, final int size, final boolean id) {
+		public Field(final String name, final String type, final int size, final boolean id) {
 			super();
+			this.name = name;
 			this.type = type;
 			this.size = size;
 			this.id = id;
 		}
+		public final String name;
 		public final String type;
 		public final int size;
 		public final boolean id;

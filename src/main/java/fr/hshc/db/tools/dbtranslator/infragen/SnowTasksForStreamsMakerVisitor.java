@@ -1,11 +1,10 @@
 package fr.hshc.db.tools.dbtranslator.infragen;
 
-import java.io.IOException;
 import java.util.Map;
 
 import fr.hshc.db.antlr4.DDLParser;
 
-public class SnowStreamProvisionedTargetTableTasksMakerVisitor extends SnowCodeGeneratorGenericVisitor {
+public class SnowTasksForStreamsMakerVisitor extends SnowCodeGeneratorGenericVisitor {
 	/*
 	 * create task sqlserver_ingest.landing.CUSTOMERS_TASK WAREHOUSE = wh_ingest
 	 * when
@@ -41,13 +40,23 @@ public class SnowStreamProvisionedTargetTableTasksMakerVisitor extends SnowCodeG
 	 */
 	private String						warehouse		= null;
 
-	public SnowStreamProvisionedTargetTableTasksMakerVisitor(Map<String, String> typeMapping, String workingDatabase, String sourceSchema, String landingSchema, String targetSchema, String warehouse) {
+	public SnowTasksForStreamsMakerVisitor(Map<String, String> typeMapping, String workingDatabase, String sourceSchema, String landingSchema, String targetSchema, String warehouse) {
 		super(typeMapping, workingDatabase, sourceSchema, landingSchema, targetSchema);
 		this.warehouse = warehouse == null ? "$SNOW_WAREHOUSE" : warehouse;
 	}
 
-	public SnowStreamProvisionedTargetTableTasksMakerVisitor(Map<String, String> typeMapping, String warehouse) {
-		this(typeMapping, warehouse, null, null, null, null);
+	public SnowTasksForStreamsMakerVisitor(Map<String, String> typeMapping, String warehouse) {
+		this(typeMapping, null, null, null, null, warehouse);
+	}
+
+	@Override
+	public String visitDdlFile(DDLParser.DdlFileContext ctx) {
+		String result = super.visitDdlFile(ctx);
+		
+		if (!"".equals(this.getWorkingDatabase())) {
+			result = "USE "+this.getWorkingDatabase() + ";\r\n\r\n" +result;
+		}
+		return result;
 	}
 
 	@Override
@@ -57,17 +66,9 @@ public class SnowStreamProvisionedTargetTableTasksMakerVisitor extends SnowCodeG
 		String fqtn = ctx.tableNameSpace().getText();
 		initNameSpaces(fqtn);
 
-		String taskFullNS = "";
-		String streamFullNS = "";
-		String outputTableFullNS = "";
-		if ("".equals(this.workingDatabase)) {
-			taskFullNS = this.workingDatabase + ".";
-			streamFullNS = this.workingDatabase + ".";
-			outputTableFullNS = this.workingDatabase + ".";
-		}
-		taskFullNS += this.landingSchema + "." + this.sourceTableName + "_TASK  WAREHOUSE = " + this.warehouse;
-		streamFullNS += this.landingSchema + ".DEBEZIUM_"+this.sourceSchema.toUpperCase()+"_" + this.sourceTableName + "_STRM";
-		outputTableFullNS += this.targetSchema + "." + this.sourceTableName;
+		String taskFullNS = this.getLandingSchema() + "." + this.tableName + "_TASK  WAREHOUSE = " + this.warehouse;
+		String streamFullNS = this.getLandingSchema() + ".DBZ_"+this.getSourceSchema().toUpperCase()+"_" + this.tableName + "_STRM";
+		String outputTableFullNS = this.getTargetSchema() + "." + this.tableName;
 
 		String content = visitContent(ctx.content());
 
@@ -139,62 +140,34 @@ public class SnowStreamProvisionedTargetTableTasksMakerVisitor extends SnowCodeG
 	}
 
 	private String visitFieldForGetName(DDLParser.FieldContext ctx) {
-		return visitFieldName(ctx.fieldName());
+		return ctx.fieldName().getText();
 	}
 
 	public String visitFieldForFindingIdField(DDLParser.FieldContext ctx) {
-		// Extract field name and format it
-		String fieldName = visitFieldName(ctx.fieldName());
-		Field fieldType = null;
-		try {
-			fieldType = Field.deserialize(visitFieldType(ctx.fieldType()));
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		if (fieldType.id) {
-			return fieldName;
+		Field field = super.extractField(ctx);
+		if (field.id) {
+			return field.name;
 		}
 		return "";
 	}
 
 	public String visitFieldForFirstSelect(DDLParser.FieldContext ctx) {
-		// Extract field name and format it
-		String fieldName = visitFieldName(ctx.fieldName());
-		Field fieldType = null;
-		try {
-			fieldType = Field.deserialize(visitFieldType(ctx.fieldType()));
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Field field = super.extractField(ctx);
 
-		if (fieldType.id) {
-			return String.format("coalesce(t.record_content:payload.before.%s::%s, t.record_content:payload.after.%s::%s) as %s", fieldName, fieldType.type, fieldName, fieldType.type, fieldName);
-		} else if (fieldType.size > 0) {
-			return String.format("t.record_content:payload.before.%s::%s(%s) as %s", fieldName, fieldType.type, fieldType.size, fieldName);
+		if (field.id) {
+			return String.format("coalesce(t.record_content:payload.before.%s::%s, t.record_content:payload.after.%s::%s) as %s", field.name, field.type.toLowerCase(), field.name, field.type.toLowerCase(), field.name);
+		} else if (field.size > 0) {
+			return String.format("t.record_content:payload.before.%s::%s(%s) as %s", field.name, field.type.toLowerCase(), field.size, field.name);
 		} else {
-			return String.format("t.record_content:payload.before.%s::%s as %s", fieldName, fieldType.type, fieldName);
+			return String.format("t.record_content:payload.before.%s::%s as %s", field.name, field.type.toLowerCase(), field.name);
 		}
 	}
 
 	public String visitFieldForPartition(DDLParser.FieldContext ctx) {
-		// Extract field name and format it
-		String fieldName = visitFieldName(ctx.fieldName());
-		Field fieldType = null;
-		try {
-			fieldType = Field.deserialize(visitFieldType(ctx.fieldType()));
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Field field = super.extractField(ctx);
 
-		if (fieldType.id) {
-			return String.format("coalesce(t.record_content:payload.before.%s::%s, t.record_content:payload.after.%s::%s)", fieldName, fieldType.type, fieldName, fieldType.type);
+		if (field.id) {
+			return String.format("coalesce(t.record_content:payload.before.%s::%s, t.record_content:payload.after.%s::%s)", field.name, field.type, field.name, field.type);
 		}
 		return "";
 	}

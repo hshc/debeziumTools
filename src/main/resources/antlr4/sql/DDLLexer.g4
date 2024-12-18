@@ -8,21 +8,19 @@ package fr.hshc.db.antlr4;
 
 
 
-WHITE_SPACE : [ \t\r\n]+ -> skip;
+WHITE_SPACE : [ \t\r\n]+;
 CREATE 		: ('CREATE'(' ' | '\t' | '\r' | '\n')+);
 TABLE 		: ('TABLE'(' ' | '\t' | '\r' | '\n')+) -> pushMode(inCreateTable);
 
 mode inCreateTable;
-WS          : [ \t\r\n]+ -> skip;
+WS          : [ \t\r\n];
 LR_BRACKET 	: '(';
 
-NUMBERS    : [0-9]+;
-LETTERS     : ([a-zA-Z] | [0-9])+;
+NUMBER    : [0-9];
+LETTER     : [a-zA-Z];
 
 DOT			: '.';
 RR_BRACKET 	: ')';
 SEMI_COL	: (' ' | '\t' | '\r' | '\n')*(';') -> popMode;
-
 UNDERLINE	: '_';
-NEWLINE 	: [\r\n]+ ;
 COMMA 		: ',';

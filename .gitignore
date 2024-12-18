@@ -58,6 +58,8 @@ hs_err_pid*
 *.iml
 *.iws
 .idea_modules/
+.trunk/
+.vscode/
 
 # OS-specific files
 .DS_Store
@@ -67,3 +69,5 @@ hs_err_pid*
 .Trashes
 ehthumbs.db
 Thumbs.db
+database_conf.toml
+src/main/resources/application.toml

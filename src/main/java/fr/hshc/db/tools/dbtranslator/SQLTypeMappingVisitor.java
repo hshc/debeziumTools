@@ -5,9 +5,9 @@ import java.util.Map;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import fr.hshc.db.antlr4.DDLParser.ContentContext;
+import fr.hshc.db.antlr4.DDLParser.FieldContext;
 import fr.hshc.db.antlr4.DDLParser.FieldNameContext;
 import fr.hshc.db.antlr4.DDLParser.FieldSizeContext;
-import fr.hshc.db.antlr4.DDLParser.FieldTypeContext;
 import fr.hshc.db.antlr4.DDLParser.FieldsContext;
 import fr.hshc.db.antlr4.DDLParser.FiledIdentContext;
 import fr.hshc.db.antlr4.DDLParser.TableNameSpaceContext;
@@ -28,7 +28,7 @@ public class SQLTypeMappingVisitor extends DDLParserBaseVisitor<String> {
 	}
 
     @Override
-    public String visitFieldType(FieldTypeContext ctx) {
+    public String visitField(FieldContext ctx) {
     	String dbms1Type = ctx.children.getFirst().toString().toUpperCase();
         String dbms2Type = null;
     	FiledIdentContext ident = null;
