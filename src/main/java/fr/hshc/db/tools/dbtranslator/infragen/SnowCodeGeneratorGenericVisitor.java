@@ -64,7 +64,7 @@ abstract class SnowCodeGeneratorGenericVisitor extends DDLParserBaseVisitor<Stri
 					.map(this::visitCreateTable)
 					.collect(Collectors.joining("\n"));
 		System.out.println(result);
-		return result.toString();
+		return result;
 	}
 
 	@Override

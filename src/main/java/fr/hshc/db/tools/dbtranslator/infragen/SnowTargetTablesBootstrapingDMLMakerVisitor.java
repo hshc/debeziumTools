@@ -5,13 +5,13 @@ import java.util.Map;
 
 import fr.hshc.db.antlr4.DDLParser;
 
-public class SnowBootstrapInsertMakerVisitor extends SnowCodeGeneratorGenericVisitor {
+public class SnowTargetTablesBootstrapingDMLMakerVisitor extends SnowCodeGeneratorGenericVisitor {
 
-	public SnowBootstrapInsertMakerVisitor(Map<String, String> typeMapping, String workingDatabase, String sourceSchema, String landingSchema, String targetSchema) {
+	public SnowTargetTablesBootstrapingDMLMakerVisitor(Map<String, String> typeMapping, String workingDatabase, String sourceSchema, String landingSchema, String targetSchema) {
 		super(typeMapping, workingDatabase, sourceSchema, landingSchema, targetSchema);
 	}
 
-	public SnowBootstrapInsertMakerVisitor(Map<String, String> typeMapping) {
+	public SnowTargetTablesBootstrapingDMLMakerVisitor(Map<String, String> typeMapping) {
 		this(typeMapping,null,null,null,null);
 	}
 

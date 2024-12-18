@@ -2,14 +2,14 @@ package fr.hshc.db.tools.dbtranslator.infragen;
 
 import fr.hshc.db.antlr4.DDLParser;
 
-public class SnowStreamsMakerVisitor extends SnowCodeGeneratorGenericVisitor {
+public class SnowTargetTableProvisionningMakerVisitor extends SnowCodeGeneratorGenericVisitor {
 
 
-	public SnowStreamsMakerVisitor(String workingDatabase, String sourceSchema, String landingSchema) {
+	public SnowTargetTableProvisionningMakerVisitor(String workingDatabase, String sourceSchema, String landingSchema) {
 		super(null, workingDatabase, sourceSchema, landingSchema, null);
 	}
 
-	public SnowStreamsMakerVisitor() {
+	public SnowTargetTableProvisionningMakerVisitor() {
 		this(null,null,null);
 	}
 
@@ -26,7 +26,7 @@ public class SnowStreamsMakerVisitor extends SnowCodeGeneratorGenericVisitor {
 			streamFullNS = this.workingDatabase + ".";
 			landingTableNS = this.workingDatabase + ".";
 		}
-		streamFullNS += this.landingSchema + ".DEBEZIUM_"+this.sourceSchema.toUpperCase()+"_" + this.sourceTableName + "_STRM";
+		streamFullNS += this.landingSchema + ".DBZ_"+this.sourceSchema.toUpperCase()+"_" + this.sourceTableName + "_STRM";
 		landingTableNS += this.landingSchema + "."+this.sourceSchema.toUpperCase()+"_" + this.sourceTableName;
 
 		result

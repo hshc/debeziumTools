@@ -8,15 +8,15 @@ import fr.hshc.db.antlr4.DDLParser;
 import fr.hshc.db.antlr4.DDLParser.CreateTableContext;
 import fr.hshc.db.tools.dbcrawler.DatabaseConfig;
 
-public class SnowKafkaSinkConnectorMakerVisitor extends SnowCodeGeneratorGenericVisitor {
+public class DbzKafkaSnowSinkConnectorMakerVisitor extends SnowCodeGeneratorGenericVisitor {
 	private DatabaseConfig databaseConfig;
 
-	public SnowKafkaSinkConnectorMakerVisitor(Map<String, String> typeMapping, String workingDatabase, String sourceSchema, String targetSchema, String dbConf) {
+	public DbzKafkaSnowSinkConnectorMakerVisitor(Map<String, String> typeMapping, String workingDatabase, String sourceSchema, String targetSchema, String dbConf) {
 		super(typeMapping, workingDatabase, sourceSchema, null, targetSchema);
         databaseConfig = DatabaseConfig.loadAll(dbConf).getFirst();
 	}
 
-	public SnowKafkaSinkConnectorMakerVisitor(Map<String, String> typeMapping, String dbConf) {
+	public DbzKafkaSnowSinkConnectorMakerVisitor(Map<String, String> typeMapping, String dbConf) {
 		this(typeMapping,null,null,null,dbConf);
 	}
 
@@ -46,7 +46,7 @@ public class SnowKafkaSinkConnectorMakerVisitor extends SnowCodeGeneratorGeneric
 //	chmod 600 config/dbz-snowflake-sink-connector.properties
 	@Override
 	public String visitDdlFile(DDLParser.DdlFileContext ctx) {
-		String namespace = databaseConfig.server+"_"+databaseConfig.database;
+		String hostAndDbNs = databaseConfig.server+"_"+databaseConfig.database;
 		String fileName = "dbz-snow"+databaseConfig.server+"_"+databaseConfig.database+"-sink-connector";
 		
 		StringBuilder output = new StringBuilder("cd $KAFKA_HOME\r\n")
@@ -63,7 +63,7 @@ public class SnowKafkaSinkConnectorMakerVisitor extends SnowCodeGeneratorGeneric
 		.append("snowflake.user.name=$SNOW_LANDING_USER\r\n")
 		.append("snowflake.private.key=$SNOW_PRIV_KEY\r\n")
 		.append("snowflake.private.key.passphrase=$SNOW_P8_FILE_PWD\r\n")
-		.append(String.format("snowflake.database.name=%s\r\n", namespace))
+		.append(String.format("snowflake.database.name=%s\r\n", hostAndDbNs))
 		.append("snowflake.schema.name=landing\r\n")
 		.append("key.converter=org.apache.kafka.connect.storage.StringConverter\r\n")
 		.append("value.converter=com.snowflake.kafka.connector.records.SnowflakeJsonConverter\r\n")

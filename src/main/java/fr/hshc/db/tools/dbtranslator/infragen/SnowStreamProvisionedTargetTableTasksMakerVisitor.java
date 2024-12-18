@@ -5,7 +5,7 @@ import java.util.Map;
 
 import fr.hshc.db.antlr4.DDLParser;
 
-public class SnowTasksMakerVisitor extends SnowCodeGeneratorGenericVisitor {
+public class SnowStreamProvisionedTargetTableTasksMakerVisitor extends SnowCodeGeneratorGenericVisitor {
 	/*
 	 * create task sqlserver_ingest.landing.CUSTOMERS_TASK WAREHOUSE = wh_ingest
 	 * when
@@ -41,12 +41,12 @@ public class SnowTasksMakerVisitor extends SnowCodeGeneratorGenericVisitor {
 	 */
 	private String						warehouse		= null;
 
-	public SnowTasksMakerVisitor(Map<String, String> typeMapping, String workingDatabase, String sourceSchema, String landingSchema, String targetSchema, String warehouse) {
+	public SnowStreamProvisionedTargetTableTasksMakerVisitor(Map<String, String> typeMapping, String workingDatabase, String sourceSchema, String landingSchema, String targetSchema, String warehouse) {
 		super(typeMapping, workingDatabase, sourceSchema, landingSchema, targetSchema);
-		this.warehouse = warehouse == null ? "dummy_wh" : warehouse;
+		this.warehouse = warehouse == null ? "$SNOW_WAREHOUSE" : warehouse;
 	}
 
-	public SnowTasksMakerVisitor(Map<String, String> typeMapping, String warehouse) {
+	public SnowStreamProvisionedTargetTableTasksMakerVisitor(Map<String, String> typeMapping, String warehouse) {
 		this(typeMapping, warehouse, null, null, null, null);
 	}
 

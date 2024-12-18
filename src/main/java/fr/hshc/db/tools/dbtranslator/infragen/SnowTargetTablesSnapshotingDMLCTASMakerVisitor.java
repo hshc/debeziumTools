@@ -5,13 +5,13 @@ import java.util.Map;
 
 import fr.hshc.db.antlr4.DDLParser;
 
-public class SnowSnapshotCTASMakerVisitor extends SnowCodeGeneratorGenericVisitor {
+public class SnowTargetTablesSnapshotingDMLCTASMakerVisitor extends SnowCodeGeneratorGenericVisitor {
 
-	public SnowSnapshotCTASMakerVisitor(Map<String, String> typeMapping, String workingDatabase, String sourceSchema, String landingSchema, String targetSchema) {
+	public SnowTargetTablesSnapshotingDMLCTASMakerVisitor(Map<String, String> typeMapping, String workingDatabase, String sourceSchema, String landingSchema, String targetSchema) {
 		super(typeMapping, workingDatabase, sourceSchema, landingSchema, targetSchema);
 	}
 
-	public SnowSnapshotCTASMakerVisitor(Map<String, String> typeMapping) {
+	public SnowTargetTablesSnapshotingDMLCTASMakerVisitor(Map<String, String> typeMapping) {
 		this(typeMapping,null,null,null,null);
 	}
 
