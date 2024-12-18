@@ -5,7 +5,7 @@ import java.util.Map;
 
 import fr.hshc.db.antlr4.DDLParser;
 
-public class SnowStreamProvisionedTargetTableTasksMakerVisitor extends SnowCodeGeneratorGenericVisitor {
+public class SnowTasksForStreamsMakerVisitor extends SnowCodeGeneratorGenericVisitor {
 	/*
 	 * create task sqlserver_ingest.landing.CUSTOMERS_TASK WAREHOUSE = wh_ingest
 	 * when
@@ -41,13 +41,23 @@ public class SnowStreamProvisionedTargetTableTasksMakerVisitor extends SnowCodeG
 	 */
 	private String						warehouse		= null;
 
-	public SnowStreamProvisionedTargetTableTasksMakerVisitor(Map<String, String> typeMapping, String workingDatabase, String sourceSchema, String landingSchema, String targetSchema, String warehouse) {
+	public SnowTasksForStreamsMakerVisitor(Map<String, String> typeMapping, String workingDatabase, String sourceSchema, String landingSchema, String targetSchema, String warehouse) {
 		super(typeMapping, workingDatabase, sourceSchema, landingSchema, targetSchema);
 		this.warehouse = warehouse == null ? "$SNOW_WAREHOUSE" : warehouse;
 	}
 
-	public SnowStreamProvisionedTargetTableTasksMakerVisitor(Map<String, String> typeMapping, String warehouse) {
-		this(typeMapping, warehouse, null, null, null, null);
+	public SnowTasksForStreamsMakerVisitor(Map<String, String> typeMapping, String warehouse) {
+		this(typeMapping, null, null, null, null, warehouse);
+	}
+
+	@Override
+	public String visitDdlFile(DDLParser.DdlFileContext ctx) {
+		String result = super.visitDdlFile(ctx);
+		
+		if (!"".equals(this.workingDatabase)) {
+			result = "USE "+this.workingDatabase + ";\r\n\r\n" +result;
+		}
+		return result;
 	}
 
 	@Override
@@ -57,17 +67,9 @@ public class SnowStreamProvisionedTargetTableTasksMakerVisitor extends SnowCodeG
 		String fqtn = ctx.tableNameSpace().getText();
 		initNameSpaces(fqtn);
 
-		String taskFullNS = "";
-		String streamFullNS = "";
-		String outputTableFullNS = "";
-		if ("".equals(this.workingDatabase)) {
-			taskFullNS = this.workingDatabase + ".";
-			streamFullNS = this.workingDatabase + ".";
-			outputTableFullNS = this.workingDatabase + ".";
-		}
-		taskFullNS += this.landingSchema + "." + this.sourceTableName + "_TASK  WAREHOUSE = " + this.warehouse;
-		streamFullNS += this.landingSchema + ".DEBEZIUM_"+this.sourceSchema.toUpperCase()+"_" + this.sourceTableName + "_STRM";
-		outputTableFullNS += this.targetSchema + "." + this.sourceTableName;
+		String taskFullNS = this.landingSchema + "." + this.sourceTableName + "_TASK  WAREHOUSE = " + this.warehouse;
+		String streamFullNS = this.landingSchema + ".DBZ_"+this.sourceSchema.toUpperCase()+"_" + this.sourceTableName + "_STRM";
+		String outputTableFullNS = this.targetSchema + "." + this.sourceTableName;
 
 		String content = visitContent(ctx.content());
 
@@ -173,11 +175,11 @@ public class SnowStreamProvisionedTargetTableTasksMakerVisitor extends SnowCodeG
 		}
 
 		if (fieldType.id) {
-			return String.format("coalesce(t.record_content:payload.before.%s::%s, t.record_content:payload.after.%s::%s) as %s", fieldName, fieldType.type, fieldName, fieldType.type, fieldName);
+			return String.format("coalesce(t.record_content:payload.before.%s::%s, t.record_content:payload.after.%s::%s) as %s", fieldName, fieldType.type.toLowerCase(), fieldName, fieldType.type.toLowerCase(), fieldName);
 		} else if (fieldType.size > 0) {
-			return String.format("t.record_content:payload.before.%s::%s(%s) as %s", fieldName, fieldType.type, fieldType.size, fieldName);
+			return String.format("t.record_content:payload.before.%s::%s(%s) as %s", fieldName, fieldType.type.toLowerCase(), fieldType.size, fieldName);
 		} else {
-			return String.format("t.record_content:payload.before.%s::%s as %s", fieldName, fieldType.type, fieldName);
+			return String.format("t.record_content:payload.before.%s::%s as %s", fieldName, fieldType.type.toLowerCase(), fieldName);
 		}
 	}
 

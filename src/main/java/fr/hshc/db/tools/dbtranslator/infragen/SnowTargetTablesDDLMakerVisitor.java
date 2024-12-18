@@ -1,12 +1,9 @@
 package fr.hshc.db.tools.dbtranslator.infragen;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import fr.hshc.db.antlr4.DDLParser;
-import fr.hshc.db.antlr4.DDLParser.CreateTableContext;
 import fr.hshc.db.tools.dbcrawler.DatabaseConfig;
 
 public class SnowTargetTablesDDLMakerVisitor extends SnowCodeGeneratorGenericVisitor {
@@ -64,11 +61,13 @@ public class SnowTargetTablesDDLMakerVisitor extends SnowCodeGeneratorGenericVis
 		try {
 			fieldType = Field.deserialize(visitFieldType(ctx.fieldType()));
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+			System.err.println("Error: Class not found for field type deserialization.");
 			e.printStackTrace();
+			return ""; // or handle the error appropriately
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			System.err.println("Error: IO exception during field type deserialization.");
 			e.printStackTrace();
+			return ""; // or handle the error appropriately
 		}
 
 		if (fieldType.size > 0) {

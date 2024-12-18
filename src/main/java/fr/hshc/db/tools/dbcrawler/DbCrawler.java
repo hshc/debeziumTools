@@ -30,7 +30,7 @@ public class DbCrawler {
     // Variable globale pour stocker le chemin du fichier de configuration TOML
     private static String tomlDbConfigFilePath = null;
 
-    // Liste des configurations des bases de donn�es, charg�e depuis le fichier TOML
+    // Liste des configurations des bases de données, chargée depuis le fichier TOML
     private static List<DatabaseConfig> databasesConfigs = null;
 
     // Variable globale pour stocker le chemin du fichier de mappage des types DBMS

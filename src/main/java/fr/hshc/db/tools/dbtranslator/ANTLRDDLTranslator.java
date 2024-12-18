@@ -23,14 +23,13 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import fr.hshc.db.antlr4.DDLLexer;
 import fr.hshc.db.antlr4.DDLParser;
 import fr.hshc.db.tools.Messages;
-import fr.hshc.db.tools.dbcrawler.DatabaseConfig;
 import fr.hshc.db.tools.dbtranslator.infragen.DbzKafkaSrcConnectorMakerVisitor;
 import fr.hshc.db.tools.dbtranslator.infragen.SnowTargetTablesBootstrapingDMLMakerVisitor;
 import fr.hshc.db.tools.dbtranslator.infragen.SnowTargetTablesDDLMakerVisitor;
 import fr.hshc.db.tools.dbtranslator.infragen.DbzKafkaSnowSinkConnectorMakerVisitor;
 import fr.hshc.db.tools.dbtranslator.infragen.SnowTargetTablesSnapshotingDMLCTASMakerVisitor;
-import fr.hshc.db.tools.dbtranslator.infragen.SnowTargetTableProvisionningMakerVisitor;
-import fr.hshc.db.tools.dbtranslator.infragen.SnowStreamProvisionedTargetTableTasksMakerVisitor;
+import fr.hshc.db.tools.dbtranslator.infragen.SnowStreamsForTargetTablesDDLMakerVisitor;
+import fr.hshc.db.tools.dbtranslator.infragen.SnowTasksForStreamsMakerVisitor;
 
 public class ANTLRDDLTranslator {
 	private ParseTree			tree;			// The ANTLR parse tree representing the DDL file's structure
@@ -100,7 +99,7 @@ public class ANTLRDDLTranslator {
 	    if ("".equals(outputDDLFile)) {
 	    	outputDDLFile = inputDDLFile.concat(".out");
 	    }
-	    String warehouse = params.getOrDefault("warehouse", "dummy_wh"); // Default to "dummy_wh"
+	    String warehouse = params.getOrDefault("warehouse", "$SNOW_WAREHOUSE"); // Default to "dummy_wh"
 	    String dbConf = params.get("dbConfig"); // Optional
 	    String operation = params.get("operation"); // Optional
 
@@ -140,13 +139,13 @@ public class ANTLRDDLTranslator {
 	                System.out.println("Target Tables Snapshoting DML translation completed.");
 	                break;
 	            case "4":
-	                result = ddlTranslator.computeTargetTableProvisionningStreams();
+	                result = ddlTranslator.computeStreamsForTargetTablesDDL();
                     writeToFile(outputDDLFile + ".SnowTargetTableProvisionningStreams", result);
 	                System.out.println("Target Table Provisioning Streams generation completed.");
 	                break;
 	            case "5":
-	                result = ddlTranslator.computeStreamProvisionedTargetTableTasks();
-                    writeToFile(outputDDLFile + ".SnowStreamProvisionedTargetTableTasks", result);
+	                result = ddlTranslator.computeTasksForStreams();
+                    writeToFile(outputDDLFile + ".SnowTasksForStreams", result);
 	                System.out.println("Stream-Provisioned Target Table Tasks generation completed.");
 	                break;
 	            case "6":
@@ -168,10 +167,10 @@ public class ANTLRDDLTranslator {
                     writeToFile(outputDDLFile + ".SnowTargetTablesBootsrapingDML", result);
 	                result = ddlTranslator.computeTargetTablesSnapshotingDML();
                     writeToFile(outputDDLFile + ".SnowTargetTablesSnapshotingDML", result);
-	                result = ddlTranslator.computeTargetTableProvisionningStreams();
-                    writeToFile(outputDDLFile + ".SnowTargetTableProvisionningStreams", result);
-	                result = ddlTranslator.computeStreamProvisionedTargetTableTasks();
-                    writeToFile(outputDDLFile + ".SnowStreamProvisionedTargetTableTasks", result);
+	                result = ddlTranslator.computeStreamsForTargetTablesDDL();
+                    writeToFile(outputDDLFile + ".SnowStreamsForTargetTablesDDL", result);
+	                result = ddlTranslator.computeTasksForStreams();
+                    writeToFile(outputDDLFile + ".SnowTasksForStreams", result);
                     if (dbConf == null) {
                         System.out.print(Messages.INPUT_TOML_FILE_PATH);
                         dbConf = scanner.next();
@@ -292,8 +291,8 @@ public class ANTLRDDLTranslator {
 	 * @throws IOException
 	 *             if an error occurs during processing
 	 */
-	private String computeTargetTableProvisionningStreams() throws IOException {
-		SnowTargetTableProvisionningMakerVisitor visitor = new SnowTargetTableProvisionningMakerVisitor();
+	private String computeStreamsForTargetTablesDDL() throws IOException {
+		SnowStreamsForTargetTablesDDLMakerVisitor visitor = new SnowStreamsForTargetTablesDDLMakerVisitor();
 		return visitor.visit(this.tree);
 	}
 
@@ -322,8 +321,8 @@ public class ANTLRDDLTranslator {
 	 * @throws IOException
 	 *             if an error occurs during processing
 	 */
-	private String computeStreamProvisionedTargetTableTasks() throws IOException {
-		SnowStreamProvisionedTargetTableTasksMakerVisitor visitor = new SnowStreamProvisionedTargetTableTasksMakerVisitor(typeMapping, this.warehouse);
+	private String computeTasksForStreams() throws IOException {
+		SnowTasksForStreamsMakerVisitor visitor = new SnowTasksForStreamsMakerVisitor(typeMapping, this.warehouse);
 		return visitor.visit(this.tree);
 	}
 
