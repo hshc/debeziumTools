@@ -112,7 +112,7 @@ public class KafkaDbzSrcConnectorMakerVisitor extends KafkaConnectorMakerVisitor
 	private String genTopic(DDLParser.CreateTableContext ctx) {
 		initNameSpaces(ctx.tableNameSpace().getText());
 		String outputFQTN = this.getLandingSchema() + "." + this.tableName;
-		return outputFQTN.toLowerCase();
+		return outputFQTN;
 	}
 	
 	private StringBuilder computeKafkaSourceFileContent(Entry<String, StringBuilder> in) {

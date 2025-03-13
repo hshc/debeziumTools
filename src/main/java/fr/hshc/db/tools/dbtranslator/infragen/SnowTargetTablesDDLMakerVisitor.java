@@ -21,7 +21,7 @@ public class SnowTargetTablesDDLMakerVisitor extends SnowCodeGeneratorGenericVis
 	@Override
 	public String visitDdlFile(DDLParser.DdlFileContext ctx) {
 		String result = super.visitDdlFile(ctx);
-		result = "cat <<EOF | snowsql -o log_level=DEBUG -c example\r\n"
+		result = "cat <<EOF | snowsql -o log_level=DEBUG -c $SNOW_PROFILE\r\n"
 				+ "use role sysadmin;\r\n"
 				+ result+"\r\n"
 				+ "EOF";

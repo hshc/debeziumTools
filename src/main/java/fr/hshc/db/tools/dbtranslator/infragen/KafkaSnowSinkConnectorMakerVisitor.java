@@ -102,7 +102,7 @@ public class KafkaSnowSinkConnectorMakerVisitor extends KafkaConnectorMakerVisit
 		outputFQTN += "." + this.getTargetSchema() + "." + this.tableName;
 	
 		result.append(outputFQTN);
-		return result.toString().toLowerCase();
+		return result.toString();
 	}
 	
 	private String genTopic2tableMap(DDLParser.CreateTableContext ctx) {
@@ -118,7 +118,9 @@ public class KafkaSnowSinkConnectorMakerVisitor extends KafkaConnectorMakerVisit
 		}
 		outputFQTN += "." + this.getTargetSchema() + "." + this.tableName;
 		
-		result.append(outputFQTN.toLowerCase()).append(":").append(this.getSourceSchema().toUpperCase()).append("_").append(this.tableName.toUpperCase());
+		result.append(outputFQTN)
+			.append(":")
+			.append(this.getSourceSchema()).append("_").append(this.tableName);
 		return result.toString();
 	}
 	
