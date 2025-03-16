@@ -10,8 +10,8 @@ import fr.hshc.db.antlr4.DDLParser;
 import fr.hshc.db.antlr4.DDLParser.CreateTableContext;
 
 public class KafkaDbzSrcConnectorMakerVisitor extends KafkaConnectorMakerVisitor {
-	public KafkaDbzSrcConnectorMakerVisitor(Map<String, String> typeMapping, String workingDatabase, String sourceSchema, String targetSchema, String dbConf) {
-		super(typeMapping, workingDatabase, sourceSchema, targetSchema, dbConf);
+	public KafkaDbzSrcConnectorMakerVisitor(Map<String, String> typeMapping, String sourceSchema, String dbConf) {
+		super(typeMapping, null, sourceSchema, null, null, dbConf);
 	}
 
 	public KafkaDbzSrcConnectorMakerVisitor(Map<String, String> typeMapping, String dbConf) {
@@ -111,7 +111,7 @@ public class KafkaDbzSrcConnectorMakerVisitor extends KafkaConnectorMakerVisitor
 	
 	private String genTopic(DDLParser.CreateTableContext ctx) {
 		initNameSpaces(ctx.tableNameSpace().getText());
-		String outputFQTN = this.getLandingSchema() + "." + this.tableName;
+		String outputFQTN = this.getSourceSchema() + "." + this.tableName;
 		return outputFQTN;
 	}
 	

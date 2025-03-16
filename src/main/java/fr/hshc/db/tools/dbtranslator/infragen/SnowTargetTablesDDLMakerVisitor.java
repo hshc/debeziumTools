@@ -3,47 +3,27 @@ package fr.hshc.db.tools.dbtranslator.infragen;
 import java.util.Map;
 
 import fr.hshc.db.antlr4.DDLParser;
-import fr.hshc.db.tools.dbcrawler.DatabaseConfig;
 
-public class SnowTargetTablesDDLMakerVisitor extends SnowCodeGeneratorGenericVisitor {
-	private DatabaseConfig databaseConfig;
+public class SnowTargetTablesDDLMakerVisitor extends SnowsqlCodeGenVisitor {
 
-	public SnowTargetTablesDDLMakerVisitor(Map<String, String> typeMapping, String workingDatabase, String sourceSchema, String targetSchema, String dbConf) {
-		super(typeMapping, workingDatabase, sourceSchema, null, targetSchema);
-        databaseConfig = DatabaseConfig.loadAll(dbConf).getFirst();
+	public SnowTargetTablesDDLMakerVisitor(Map<String, String> typeMapping, String sourceDatabase, String sourceSchema, String targetDatabase, String targetSchema, String dbConf) {
+		super(typeMapping, sourceDatabase, sourceSchema, null, targetDatabase, targetSchema);
 	}
 
 	public SnowTargetTablesDDLMakerVisitor(Map<String, String> typeMapping, String dbConf) {
-		this(typeMapping,null,null,null,dbConf);
+		this(typeMapping,null,null,null,null,dbConf);
 	}
 
 
-	@Override
-	public String visitDdlFile(DDLParser.DdlFileContext ctx) {
-		String result = super.visitDdlFile(ctx);
-		result = "cat <<EOF | snowsql -o log_level=DEBUG -c $SNOW_PROFILE\r\n"
-				+ "use role sysadmin;\r\n"
-				+ result+"\r\n"
-				+ "EOF";
-		System.out.println(result);
-		return result.toString();
-	}
-	
 	@Override
 	public String visitCreateTable(DDLParser.CreateTableContext ctx) {
 		initNameSpaces(ctx.tableNameSpace().getText());
-		String hostAndDbNs = databaseConfig.server;
-		if (!"".equals(this.getWorkingDatabase())) {
-			hostAndDbNs += "_"+this.getWorkingDatabase();
-		}
+		
+		String outputFQTN = this.getTargetSchema() + "." + this.tableName;
 		
 		StringBuilder result = new StringBuilder();
 
 		String fields = visitContent(ctx.content());
-
-		String outputFQTN = 
-				hostAndDbNs + "." 
-				+ this.getTargetSchema() + "." + this.tableName;
 
 		result
 		.append("create or replace table ").append(outputFQTN).append(" (\r\n")

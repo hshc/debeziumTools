@@ -4,7 +4,7 @@ import java.util.Map;
 
 import fr.hshc.db.antlr4.DDLParser;
 
-public class SnowTasksForStreamsMakerVisitor extends SnowCodeGeneratorGenericVisitor {
+public class SnowTasksForStreamsMakerVisitor extends SnowsqlCodeGenVisitor {
 	/*
 	 * create task sqlserver_ingest.landing.CUSTOMERS_TASK WAREHOUSE = wh_ingest
 	 * when
@@ -40,24 +40,24 @@ public class SnowTasksForStreamsMakerVisitor extends SnowCodeGeneratorGenericVis
 	 */
 	private String						warehouse		= null;
 
-	public SnowTasksForStreamsMakerVisitor(Map<String, String> typeMapping, String workingDatabase, String sourceSchema, String landingSchema, String targetSchema, String warehouse) {
-		super(typeMapping, workingDatabase, sourceSchema, landingSchema, targetSchema);
+	public SnowTasksForStreamsMakerVisitor(Map<String, String> typeMapping, String sourceDatabase, String sourceSchema, String landingSchema, String targetDatabase, String targetSchema, String warehouse) {
+		super(typeMapping, sourceDatabase, sourceSchema, landingSchema, targetDatabase, targetSchema);
 		this.warehouse = warehouse == null ? "$SNOW_WAREHOUSE" : warehouse;
 	}
 
 	public SnowTasksForStreamsMakerVisitor(Map<String, String> typeMapping, String warehouse) {
-		this(typeMapping, null, null, null, null, warehouse);
+		this(typeMapping, null, null, null, null, null, warehouse);
 	}
 
-	@Override
-	public String visitDdlFile(DDLParser.DdlFileContext ctx) {
-		String result = super.visitDdlFile(ctx);
-		
-		if (!"".equals(this.getWorkingDatabase())) {
-			result = "USE "+this.getWorkingDatabase() + ";\r\n\r\n" +result;
-		}
-		return result;
-	}
+//	@Override
+//	public String visitDdlFile(DDLParser.DdlFileContext ctx) {
+//		String result = super.visitDdlFile(ctx);
+//		
+//		if (!"".equals(this.getSourceDatabase())) {
+//			result = "USE "+this.getSourceDatabase() + ";\r\n\r\n" +result;
+//		}
+//		return result;
+//	}
 
 	@Override
 	public String visitCreateTable(DDLParser.CreateTableContext ctx) {

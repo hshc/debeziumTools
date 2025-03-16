@@ -8,16 +8,16 @@ import fr.hshc.db.antlr4.DDLParser;
 import fr.hshc.db.antlr4.DDLParser.CreateTableContext;
 import fr.hshc.db.tools.dbcrawler.DatabaseConfig;
 
-public class KafkaConnectorMakerVisitor extends SnowCodeGeneratorGenericVisitor {
+public class KafkaConnectorMakerVisitor extends SnowCodeGenVisitor {
 	protected DatabaseConfig databaseConfig;
 
-	public KafkaConnectorMakerVisitor(Map<String, String> typeMapping, String workingDatabase, String sourceSchema, String targetSchema, String dbConf) {
-		super(typeMapping, workingDatabase, sourceSchema, null, targetSchema);
+	public KafkaConnectorMakerVisitor(Map<String, String> typeMapping, String sourceDatabase, String sourceSchema, String targetDatabase, String targetSchema, String dbConf) {
+		super(typeMapping, sourceDatabase, sourceSchema, null, targetDatabase, targetSchema);
         databaseConfig = DatabaseConfig.loadAll(dbConf).getFirst();
 	}
 
 	public KafkaConnectorMakerVisitor(Map<String, String> typeMapping, String dbConf) {
-		this(typeMapping,null,null,null,dbConf);
+		this(typeMapping,null,null,null,null,dbConf);
 	}
 	
 	protected Map<String, List<CreateTableContext>> orderedFqtnByDbName(DDLParser.DdlFileContext ctx) {
@@ -28,7 +28,7 @@ public class KafkaConnectorMakerVisitor extends SnowCodeGeneratorGenericVisitor 
 	}
 	private String databaseName(CreateTableContext ctx) {
 		initNameSpaces(ctx.tableNameSpace().getText().trim());
-		return this.getWorkingDatabase();
+		return this.getSourceDatabase();
 	}
 
 }

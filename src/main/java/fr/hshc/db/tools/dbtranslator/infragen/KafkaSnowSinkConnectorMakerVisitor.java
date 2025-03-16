@@ -11,8 +11,8 @@ import fr.hshc.db.antlr4.DDLParser;
 import fr.hshc.db.antlr4.DDLParser.CreateTableContext;
 
 public class KafkaSnowSinkConnectorMakerVisitor extends KafkaConnectorMakerVisitor {
-	public KafkaSnowSinkConnectorMakerVisitor(Map<String, String> typeMapping, String workingDatabase, String sourceSchema, String targetSchema, String dbConf) {
-		super(typeMapping, workingDatabase, sourceSchema, targetSchema, dbConf);
+	public KafkaSnowSinkConnectorMakerVisitor(Map<String, String> typeMapping, String sourceSchema, String targetDatabase, String targetSchema, String dbConf) {
+		super(typeMapping, null, sourceSchema, targetDatabase, targetSchema, dbConf);
 	}
 
 	public KafkaSnowSinkConnectorMakerVisitor(Map<String, String> typeMapping, String dbConf) {
@@ -94,12 +94,12 @@ public class KafkaSnowSinkConnectorMakerVisitor extends KafkaConnectorMakerVisit
 		StringBuilder result = new StringBuilder();
 		
 		String outputFQTN = databaseConfig.server+ ".";
-		if (!"".equals(this.getWorkingDatabase())) {
-			outputFQTN += this.getWorkingDatabase();
+		if (!"".equals(this.getSourceDatabase())) {
+			outputFQTN += this.getSourceDatabase();
 		} else {
 			outputFQTN += databaseConfig.database;
 		}
-		outputFQTN += "." + this.getTargetSchema() + "." + this.tableName;
+		outputFQTN += "." + this.getSourceSchema() + "." + this.tableName;
 	
 		result.append(outputFQTN);
 		return result.toString();
@@ -111,16 +111,16 @@ public class KafkaSnowSinkConnectorMakerVisitor extends KafkaConnectorMakerVisit
 		StringBuilder result = new StringBuilder();
 
 		String outputFQTN = databaseConfig.server+ ".";
-		if (!"".equals(this.getWorkingDatabase())) {
-			outputFQTN += this.getWorkingDatabase();
+		if (!"".equals(this.getSourceDatabase())) {
+			outputFQTN += this.getSourceDatabase();
 		} else {
 			outputFQTN += databaseConfig.database;
 		}
-		outputFQTN += "." + this.getTargetSchema() + "." + this.tableName;
+		outputFQTN += "." + this.getSourceSchema() + "." + this.tableName;
 		
 		result.append(outputFQTN)
 			.append(":")
-			.append(this.getSourceSchema()).append("_").append(this.tableName);
+			.append(this.getSourceSchema().toUpperCase()).append("_").append(this.tableName);
 		return result.toString();
 	}
 	

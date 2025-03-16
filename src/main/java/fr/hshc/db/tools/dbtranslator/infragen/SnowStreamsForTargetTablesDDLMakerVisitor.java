@@ -2,26 +2,15 @@ package fr.hshc.db.tools.dbtranslator.infragen;
 
 import fr.hshc.db.antlr4.DDLParser;
 
-public class SnowStreamsForTargetTablesDDLMakerVisitor extends SnowCodeGeneratorGenericVisitor {
+public class SnowStreamsForTargetTablesDDLMakerVisitor extends SnowsqlCodeGenVisitor {
 
 
-	public SnowStreamsForTargetTablesDDLMakerVisitor(String workingDatabase, String sourceSchema, String landingSchema) {
-		super(null, workingDatabase, sourceSchema, landingSchema, null);
+	public SnowStreamsForTargetTablesDDLMakerVisitor(String sourceDatabase, String sourceSchema, String landingSchema, String targetDatabase) {
+		super(null, sourceDatabase, sourceSchema, landingSchema, targetDatabase, null);
 	}
 
 	public SnowStreamsForTargetTablesDDLMakerVisitor() {
-		this(null,null,null);
-	}
-
-
-	@Override
-	public String visitDdlFile(DDLParser.DdlFileContext ctx) {
-		String result = super.visitDdlFile(ctx);
-		
-		if (!"".equals(this.getWorkingDatabase())) {
-			result = "USE "+this.getWorkingDatabase() + ";\r\n\r\n" +result;
-		}
-		return result;
+		this(null,null,null,null);
 	}
 
 	@Override

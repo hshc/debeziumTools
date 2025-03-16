@@ -4,14 +4,14 @@ import java.util.Map;
 
 import fr.hshc.db.antlr4.DDLParser;
 
-public class SnowBootstrapCTASMakerVisitor extends SnowCodeGeneratorGenericVisitor {
+public class SnowBootstrapCTASMakerVisitor extends SnowCodeGenVisitor {
 
-	public SnowBootstrapCTASMakerVisitor(Map<String, String> typeMapping, String workingDatabase, String sourceSchema, String landingSchema, String targetSchema) {
-		super(typeMapping, workingDatabase, sourceSchema, landingSchema, targetSchema);
+	public SnowBootstrapCTASMakerVisitor(Map<String, String> typeMapping, String sourceDatabase, String sourceSchema, String landingSchema, String targetDatabase, String targetSchema) {
+		super(typeMapping, sourceDatabase, sourceSchema, landingSchema, targetDatabase, targetSchema);
 	}
 
 	public SnowBootstrapCTASMakerVisitor(Map<String, String> typeMapping) {
-		this(typeMapping,null,null,null,null);
+		this(typeMapping,null,null,null,null,null);
 	}
 
 	@Override
@@ -23,16 +23,16 @@ public class SnowBootstrapCTASMakerVisitor extends SnowCodeGeneratorGenericVisit
 		initNameSpaces(fqtn);
 
 		String landingTableFQTN = "\t";
-		if (!"".equals(this.getWorkingDatabase())) {
-			landingTableFQTN = this.getWorkingDatabase() + ".";
+		if (!"".equals(this.getSourceDatabase())) {
+			landingTableFQTN = this.getSourceDatabase() + ".";
 		}
 		landingTableFQTN += this.getLandingSchema() + "."+this.getSourceSchema().toUpperCase()+"_" + this.tableName + "\r\n";
 
 		String fields = visitContent(ctx.content());
 
 		String outputFQTN = "";
-		if (this.getWorkingDatabase() != null) {
-			outputFQTN = this.getWorkingDatabase() + ".";
+		if (this.getSourceDatabase() != null) {
+			outputFQTN = this.getSourceDatabase() + ".";
 		}
 		outputFQTN += this.getTargetSchema() + "." + this.tableName;
 

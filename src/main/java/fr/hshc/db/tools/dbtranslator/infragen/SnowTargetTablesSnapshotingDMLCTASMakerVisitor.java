@@ -4,10 +4,10 @@ import java.util.Map;
 
 import fr.hshc.db.antlr4.DDLParser;
 
-public class SnowTargetTablesSnapshotingDMLCTASMakerVisitor extends SnowCodeGeneratorGenericVisitor {
+public class SnowTargetTablesSnapshotingDMLCTASMakerVisitor extends SnowsqlCodeGenVisitor {
 
-	public SnowTargetTablesSnapshotingDMLCTASMakerVisitor(Map<String, String> typeMapping, String workingDatabase, String sourceSchema, String landingSchema, String targetSchema) {
-		super(typeMapping, workingDatabase, sourceSchema, landingSchema, targetSchema);
+	public SnowTargetTablesSnapshotingDMLCTASMakerVisitor(Map<String, String> typeMapping, String sourceSchema, String landingSchema, String targetDatabase, String targetSchema) {
+		super(typeMapping, null, sourceSchema, landingSchema, targetDatabase, targetSchema);
 	}
 
 	public SnowTargetTablesSnapshotingDMLCTASMakerVisitor(Map<String, String> typeMapping) {
@@ -21,14 +21,8 @@ public class SnowTargetTablesSnapshotingDMLCTASMakerVisitor extends SnowCodeGene
 		String fqtn = ctx.tableNameSpace().getText();
 		initNameSpaces(fqtn);
 
-		String outputFQTN = "";
-		String inputFQTN = "";
-		if (!"".equals(this.getWorkingDatabase())) {
-			outputFQTN = this.getWorkingDatabase() + ".";
-			inputFQTN = this.getWorkingDatabase() + ".";
-		}
-		outputFQTN += this.getTargetSchema() + "." + this.tableName;
-		inputFQTN += this.getLandingSchema() + "."+this.getSourceSchema().toUpperCase()+"_" + this.tableName;
+		String outputFQTN = this.getTargetSchema() + "." + this.tableName;
+		String inputFQTN = this.getLandingSchema() + "."+ this.getSourceSchema().toUpperCase()+"_" + this.tableName;
 
 		String content = visitContent(ctx.content());
 		content = String.format(content, inputFQTN, inputFQTN);

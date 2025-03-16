@@ -4,14 +4,14 @@ import java.util.Map;
 
 import fr.hshc.db.antlr4.DDLParser;
 
-public class SnowTargetTablesBootstrapingDMLMakerVisitor extends SnowCodeGeneratorGenericVisitor {
+public class SnowTargetTablesBootstrapingDMLMakerVisitor extends SnowsqlCodeGenVisitor {
 
-	public SnowTargetTablesBootstrapingDMLMakerVisitor(Map<String, String> typeMapping, String workingDatabase, String sourceSchema, String landingSchema, String targetSchema) {
-		super(typeMapping, workingDatabase, sourceSchema, landingSchema, targetSchema);
+	public SnowTargetTablesBootstrapingDMLMakerVisitor(Map<String, String> typeMapping, String landingSchema, String targetDatabase, String targetSchema) {
+		super(typeMapping, null, null, landingSchema, targetDatabase, targetSchema);
 	}
 
 	public SnowTargetTablesBootstrapingDMLMakerVisitor(Map<String, String> typeMapping) {
-		this(typeMapping,null,null,null,null);
+		this(typeMapping,null,null,null);
 	}
 
 	@Override
@@ -22,19 +22,11 @@ public class SnowTargetTablesBootstrapingDMLMakerVisitor extends SnowCodeGenerat
 		String fqtn = ctx.tableNameSpace().getText();
 		initNameSpaces(fqtn);
 
-		String landingTableFQTN = "\t";
-		if (!"".equals(this.getWorkingDatabase())) {
-			landingTableFQTN = this.getWorkingDatabase() + ".";
-		}
-		landingTableFQTN += this.getLandingSchema() + "."+this.getSourceSchema().toUpperCase()+"_" + this.tableName + "\r\n";
+		String landingTableFQTN = "\t" + this.getLandingSchema() + "."+this.getSourceSchema().toUpperCase()+"_" + this.tableName + "\r\n";
 
 		String fields = visitContent(ctx.content());
 
-		String outputFQTN = "";
-		if (!"".equals(this.getWorkingDatabase())) {
-			outputFQTN = this.getWorkingDatabase() + ".";
-		}
-		outputFQTN += this.getTargetSchema() + "." + this.tableName;
+		String outputFQTN = this.getTargetSchema() + "." + this.tableName;
 
 		result
 		.append("INSERT INTO ").append(outputFQTN).append("\r\n")

@@ -18,27 +18,29 @@ import fr.hshc.db.antlr4.DDLParser.FieldSizeContext;
 import fr.hshc.db.antlr4.DDLParser.FiledIdentContext;
 import fr.hshc.db.antlr4.DDLParserBaseVisitor;
 
-abstract class SnowCodeGeneratorGenericVisitor extends DDLParserBaseVisitor<String> {
+abstract class SnowCodeGenVisitor extends DDLParserBaseVisitor<String> {
 
 	protected final Map<String, String>	typeMapping;
+	protected String					sourceDatabase	= null;
 	protected String					sourceSchema	= null;
 	protected String					landingSchema	= null;
+	protected String					targetDatabase	= null;
 	protected String					targetSchema	= null;
-	protected String					workingDatabase	= null;
 	protected String					tableName	= "";
 	protected String[]					inputTableNameSpace;
 
-	SnowCodeGeneratorGenericVisitor(Map<String, String> typeMapping, String workingDatabase, String sourceSchema, String landingSchema, String targetSchema) {
+	SnowCodeGenVisitor(Map<String, String> typeMapping, String sourceDatabase, String sourceSchema, String landingSchema, String targetDatabase, String targetSchema) {
 		super();
 		this.typeMapping = typeMapping;
-		this.workingDatabase = workingDatabase == null ? "" : workingDatabase;
+		this.sourceDatabase = sourceDatabase == null ? "" : sourceDatabase;
 		this.sourceSchema = sourceSchema == null ? "" : sourceSchema;
 		this.landingSchema = landingSchema == null ? "" : landingSchema;
+		this.targetDatabase = targetDatabase == null ? "" : targetDatabase;
 		this.targetSchema = targetSchema == null ? "" : targetSchema;
 	}
 
-	SnowCodeGeneratorGenericVisitor(Map<String, String> typeMapping) {
-		this(typeMapping, null, null, null, null);
+	SnowCodeGenVisitor(Map<String, String> typeMapping) {
+		this(typeMapping, null, null, null, null, null);
 	}
 
 	protected void initNameSpaces(String inputTableNameSpace) {
@@ -47,12 +49,12 @@ abstract class SnowCodeGeneratorGenericVisitor extends DDLParserBaseVisitor<Stri
 		this.tableName = this.inputTableNameSpace[length - 1].trim();
 	}
 
-	public String getWorkingDatabase() {
+	public String getSourceDatabase() {
 		int length = this.inputTableNameSpace.length;
-		if (length > 2 && "".equals(this.workingDatabase)) {
+		if (length > 2 && "".equals(this.sourceDatabase)) {
 			return this.inputTableNameSpace[length - 3].trim();
 		}
-		return this.workingDatabase;
+		return this.sourceDatabase;
 	}
 	public String getSourceSchema() {
 		int length = inputTableNameSpace.length;
@@ -67,17 +69,21 @@ abstract class SnowCodeGeneratorGenericVisitor extends DDLParserBaseVisitor<Stri
 
 	public String getLandingSchema() {
 		if ("".equals(this.landingSchema)) {
-			if (!"defaultSchema".equals(this.getSourceSchema())) {
-				return this.getSourceSchema();
-			}
-			return "landing";
+			return "$SNOW_KAFKA_SCHEMA";
 		}
 		return this.landingSchema;
 	}
 
+	public String getTargetDatabase() {
+		if ("".equals(this.targetDatabase)) {
+			return "$SNOW_KAFKA_DB";
+		}
+		return targetDatabase;
+	}
+
 	public String getTargetSchema() {
 		if ("".equals(this.targetSchema)) {
-			return this.getSourceSchema();
+			return "$SNOW_TARGET_SCHEMA";
 		}
 		return this.targetSchema;
 	}
